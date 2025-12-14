@@ -4,6 +4,8 @@
 DATA_DIR="EPSTEIN-DATA"
 INPUT_FILE="sources_manifest.txt"
 LOG_FILE="download_log.txt"
+USER_AGENT="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+DELAY_SECONDS=1
 
 # Colors for output
 GREEN='\033[0;32m'
@@ -64,24 +66,30 @@ while IFS='|' read -r subfolder filename url1 url2 || [ -n "$subfolder" ]; do
     echo "Downloading $filename to $subfolder..."
 
     # Attempt Primary URL
-    if wget -q --show-progress -O "$target_file" "$url1"; then
+    # Added --user-agent to avoid blocking by some servers
+    if wget -q --show-progress --user-agent="$USER_AGENT" -O "$target_file" "$url1"; then
         echo -e "${GREEN}[OK] Downloaded from Primary URL.${NC}"
         ((success_count++))
     else
         echo -e "${YELLOW}[WARN] Primary URL failed. Trying Secondary URL...${NC}"
 
         # Attempt Secondary URL
-        if wget -q --show-progress -O "$target_file" "$url2"; then
+        if wget -q --show-progress --user-agent="$USER_AGENT" -O "$target_file" "$url2"; then
              echo -e "${GREEN}[OK] Downloaded from Secondary URL.${NC}"
              ((success_count++))
         else
             echo -e "${RED}[FAIL] Both URLs failed for $filename.${NC}"
             echo "$(date): Failed to download $filename ($url1, $url2)" >> "$LOG_FILE"
             # Clean up empty file if created
-            rm -f "$target_file"
+            if [[ -f "$target_file" ]]; then
+                rm -f "$target_file"
+            fi
             ((fail_count++))
         fi
     fi
+
+    # Sleep to respect rate limits
+    sleep "$DELAY_SECONDS"
 
 done < "$INPUT_FILE"
 
@@ -90,4 +98,6 @@ echo -e "${GREEN}Download Complete.${NC}"
 echo "Total processed: $total_files"
 echo "Successful: $success_count"
 echo "Failed: $fail_count"
-echo "Check $LOG_FILE for details on failures."
+if [[ $fail_count -gt 0 ]]; then
+    echo "Check $LOG_FILE for details on failures."
+fi

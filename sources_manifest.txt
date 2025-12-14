@@ -1,12 +1,13 @@
-# Format: Subfolder | Filename | Primary_URL | Secondary_URL
-# Lines starting with # are ignored.
-# You can generate this file from your research data.
-
-# Example 1: Standard download
-documents | example_doc_01.pdf | https://via.placeholder.com/150 | https://via.placeholder.com/150
-
-# Example 2: Redundancy Test (Primary is broken)
-photos/bedroom | photo_001.jpg | https://broken-link.com/image.jpg | https://via.placeholder.com/200
-
-# Example 3: Another category
-photos/island | landscape_01.png | https://via.placeholder.com/300 | https://via.placeholder.com/300
+# SOURCES MANIFEST
+# ==============================================================================
+# INSTRUCTIONS:
+# 1. Enter your data below.
+# 2. Each line must represent one file download.
+# 3. Use the pipe character '|' to separate the four columns.
+# 4. Do not leave blank lines between entries.
+#
+# FORMAT:
+# Subfolder Name | Filename to Save As | Primary Download URL | Backup Download URL
+#
+# ==============================================================================
+# DATA ENTRY START:

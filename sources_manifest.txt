@@ -1,0 +1,13 @@
+# SOURCES MANIFEST
+# ==============================================================================
+# INSTRUCTIONS:
+# 1. Enter your data below.
+# 2. Each line must represent one file download.
+# 3. Use the pipe character '|' to separate the four columns.
+# 4. Do not leave blank lines between entries.
+#
+# FORMAT:
+# Subfolder Name | Filename to Save As | Primary Download URL | Backup Download URL
+#
+# ==============================================================================
+# DATA ENTRY START:
